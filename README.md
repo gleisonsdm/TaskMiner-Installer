@@ -1,4 +1,4 @@
-# TaskMiner-Installer
+# TaskMiner Installer
 A project to install TaskMiner with its test framework.
 
 ## How to install TaskMiner using this project
