@@ -123,17 +123,31 @@ if [ ! -d "${ROOT_FOLDER}/Benchmarks" ]; then
 fi
 
 cd "${ROOT_FOLDER}/tf"
-sed -i "s,HOME\/lge\/llvm-3.7-src\/build-debug,${ROOT_FOLDER}\/llvm-build,g" runAnalyzesTest.sh
-sed -i "s,HOME\/lge\/taskminer\/build-debug,${ROOT_FOLDER}\/TaskMiner/lib,g" runAnalyzesTest.sh
+sed -i "s,\$HOME\/lge\/llvm-3.7-src\/build-debug,${ROOT_FOLDER}\/llvm-build,g" runAnalyzesTest.sh
+sed -i "s,\$HOME\/lge\/taskminer\/build-debug,${ROOT_FOLDER}\/TaskMiner/lib,g" runAnalyzesTest.sh
 
-sed -i "s,echo \"\$file_name\,broken\" >> \/home\/gleison\/tf\/report.csv,MARK1_REPLACE\n,g" annotate.sh
-sed -i "s,MARK1_REPLACE,filename=\$(readlink -f \$file_name)MARK2_REPLACE\n,g" annotate.sh
-sed -i "s,MARK2_REPLACE,filename=\"\${filename\/\/*Benchmarks\/}\"MARK3_REPLACE\n,g" annotate.sh
+sed -i "s,echo \"\$file_name\,broken\" >> \/home\/gleison\/tf\/report.csv,MARK1_REPLACE,g" annotate.sh
+sed -i "s,MARK1_REPLACE,filename=\$(readlink -f \$file_name)\nMARK2_REPLACE,g" annotate.sh
+sed -i "s,MARK2_REPLACE,filename=\"\${filename\/\/*Benchmarks\/}\"\nMARK3_REPLACE,g" annotate.sh
 sed -i "s,MARK3_REPLACE,echo \"\$filename\,broken\" >> ${ROOT_FOLDER}\/tf\/report.csv,g" annotate.sh
 
-sed -i "s,echo \"\$file_name\,annotated\" >> \/home\/gleison\/tf\/report.csv,MARK1_REPLACE\n,g" annotate.sh
-sed -i "s,MARK1_REPLACE,filename=\$(readlink -f \$file_name)MARK2_REPLACE\n,g" annotate.sh
-sed -i "s,MARK2_REPLACE,filename=\"\${filename\/\/*Benchmarks\/}\"MARK3_REPLACE\n,g" annotate.sh
+sed -i "s,echo \"\$file_name\,annotated\" >> \/home\/gleison\/tf\/report.csv,MARK1_REPLACE,g" annotate.sh
+sed -i "s,MARK1_REPLACE,filename=\$(readlink -f \$file_name)\nMARK2_REPLACE,g" annotate.sh
+sed -i "s,MARK2_REPLACE,filename=\"\${filename\/\/*Benchmarks\/}\"\nMARK3_REPLACE,g" annotate.sh
 sed -i "s,MARK3_REPLACE,echo \"\$filename\,annotated\" >> ${ROOT_FOLDER}\/tf\/report.csv,g" annotate.sh
+
+sed -i "s,CLANG=\"\/home\/brenocfg\/Work\/llvm-3.7\/test\/bin\/clang\",CLANG=\"${ROOT_FOLDER}\/llvm-build\/bin\/clang\",g" scopetest.sh
+sed -i "s,PLUGIN=\"\/home\/brenocfg\/Work\/llvm-3.7\/test\/lib\/scope-finder.so\",PLUGIN=\"${ROOT_FOLDER}\/llvm-build\/lib\/scope-finder.so\",g" scopetest.sh
+
+sed -i "s,\$HOME\/tf\/scopetest.sh,${ROOT_FOLDER}\/tf\/scopetest.sh,g" runAnalyzesTest.sh 
+sed -i "s,export PRA=\"\$BUILD\/PtrRangeAnalysis\/libLLVMPtrRangeAnalysis.so\",export PRA=\"\$BUILD\/PtrRangeAnalysis\/libLLVMPtrRangeAnalysis.so\"\nexport PAT=\"\$BUILD\/PtrAccessType\/libLLVMPtrAccessTypeAnalysis.so\",g" runAnalyzesTest.sh
+
+sed -i "s,export OMP=\"\-I\/home\/kezia\/2015\/openmp\/runtime\/exports\/common\/include\",#export OMP=\"\-I\/home\/kezia\/2015\/openmp\/runtime\/exports\/common\/include,g" runAnalyzesTest.sh
+sed -i "s,export PATH=\$PATH:\/home\/periclesrafael\/openmp4\/llvm\/install\/bin\/,#export PATH=\$PATH:\/home\/periclesrafael\/openmp4\/llvm\/install\/bin\/,g" runAnalyzesTest.sh
+sed -i "s,export LD_LIBRARY_PATH=\$LD_LIBRARY_PATH:\/home\/periclesrafael\/openmp4\/llvm\/install\/lib,#export LD_LIBRARY_PATH=\$LD_LIBRARY_PATH:\/home\/periclesrafael\/openmp4\/llvm\/install\/lib,g" runAnalyzesTest.sh
+sed -i "s,export C_INCLUDE_PATH=\$C_INCLUDE_PATH:\/home\/periclesrafael\/openmp4\/llvm\/install\/include,#export C_INCLUDE_PATH=\$C_INCLUDE_PATH:\/home\/periclesrafael\/openmp4\/llvm\/install\/include,g" runAnalyzesTest.sh
+sed -i "s,\$OPT -load \$ST -load \$WTM -load \$WAI,\$OPT -load \$PAT -load \$ST -load \$WTM -load \$WAI,g" runAnalyzesTest.sh 
+
 cd "${ROOT_FOLDER}"
 
+apt-get -y install gcc-6
