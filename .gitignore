@@ -3,5 +3,6 @@ llvm
 llvm-build
 TaskMiner
 tf
+Benchmarks
 cfe-3.7.0.src.tar.xz
 llvm-3.7.0.src.tar.xz
