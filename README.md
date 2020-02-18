@@ -3,7 +3,7 @@ A project to install TaskMiner with its test framework.
 
 ## How to install TaskMiner using this project
 
-Please, open your terminal and type the following command:
+Please, open your terminal and type the following commands:
 ```sh
 git clone https://github.com/gleisonsdm/TaskMiner-Installer.git
 cd TaskMiner-Installer
@@ -13,7 +13,7 @@ cd ../
 
 ## How to use TaskMiner test framework to annotate programs:
 
-Please, open your terminal and type the following command:
+Please, open your terminal and type the following commands:
 ```sh
 git clone https://github.com/gleisonsdm/TaskMiner-Installer.git
 cd TaskMiner-Installer
