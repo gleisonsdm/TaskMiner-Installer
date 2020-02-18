@@ -109,3 +109,31 @@ make -j${MAKE_THREADS}
 
 #Go back to root folder
 cd ${ROOT_FOLDER}
+
+#------------------------------------------------------------------------------
+#  Scripts to install the test Framework
+#------------------------------------------------------------------------------
+
+if [ ! -d "${ROOT_FOLDER}/tf" ]; then
+  git clone -b taskminer https://github.com/guilhermeleobas/tf.git
+fi
+
+if [ ! -d "${ROOT_FOLDER}/Benchmarks" ]; then
+  git clone https://github.com/lac-dcc/Benchmarks.git
+fi
+
+cd "${ROOT_FOLDER}/tf"
+sed -i "s,HOME\/lge\/llvm-3.7-src\/build-debug,${ROOT_FOLDER}\/llvm-build,g" runAnalyzesTest.sh
+sed -i "s,HOME\/lge\/taskminer\/build-debug,${ROOT_FOLDER}\/TaskMiner/lib,g" runAnalyzesTest.sh
+
+sed -i "s,echo \"\$file_name\,broken\" >> \/home\/gleison\/tf\/report.csv,MARK1_REPLACE\n,g" annotate.sh
+sed -i "s,MARK1_REPLACE,filename=\$(readlink -f \$file_name)MARK2_REPLACE\n,g" annotate.sh
+sed -i "s,MARK2_REPLACE,filename=\"\${filename\/\/*Benchmarks\/}\"MARK3_REPLACE\n,g" annotate.sh
+sed -i "s,MARK3_REPLACE,echo \"\$filename\,broken\" >> ${ROOT_FOLDER}\/tf\/report.csv,g" annotate.sh
+
+sed -i "s,echo \"\$file_name\,annotated\" >> \/home\/gleison\/tf\/report.csv,MARK1_REPLACE\n,g" annotate.sh
+sed -i "s,MARK1_REPLACE,filename=\$(readlink -f \$file_name)MARK2_REPLACE\n,g" annotate.sh
+sed -i "s,MARK2_REPLACE,filename=\"\${filename\/\/*Benchmarks\/}\"MARK3_REPLACE\n,g" annotate.sh
+sed -i "s,MARK3_REPLACE,echo \"\$filename\,annotated\" >> ${ROOT_FOLDER}\/tf\/report.csv,g" annotate.sh
+cd "${ROOT_FOLDER}"
+
