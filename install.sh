@@ -38,6 +38,17 @@ LLVM_SRC_ADDR="http://llvm.org/releases/${LLVM_VER}/${LLVM_SRC_FILE}"
 CLANG_SRC_ADDR="http://llvm.org/releases/${CLANG_VER}/${CLANG_SRC_FILE}"
 TKMN_SRC_ADDR="https://github.com/gleisonsdm/TaskMiner.git"
 
+# Install Dependences
+apt-get update
+apt-get install apt-utils -y
+apt-get upgrade -y
+apt-get install libexpat1 -y
+apt-get install -y make vim cmake git wget zip unzip
+apt-get install -y gcc-6 g++-6
+apt-get install -y libomp-dev
+apt-get install -y python
+apt-get install -y parallel
+
 #Download LLVM, Clang and TaskMiner source tarballs if not already downloaded
 if [ ! -f "${LLVM_SRC_FILE}" ]; then
     wget "${LLVM_SRC_ADDR}"
@@ -150,4 +161,3 @@ sed -i "s,\$OPT -load \$ST -load \$WTM -load \$WAI,\$OPT -load \$PAT -load \$ST 
 
 cd "${ROOT_FOLDER}"
 
-apt-get -y install gcc-6
